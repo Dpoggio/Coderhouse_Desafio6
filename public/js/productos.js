@@ -1,30 +1,28 @@
 const socket = io();
 
-cargarProductos()
 
-async function cargarProductos() {
-    const [ plantilla, productos ] = await Promise.all(
-        [ obtenerPlantillaProductos(), obtenerProductos() ]
-    )
-
-    const render = Handlebars.compile(plantilla);
-    const html = render({ productos })
-    document.getElementById('productos').innerHTML = html
-}
+obtenerProductos().then(cargarProductos)
 
 function obtenerProductos() {
     return fetch('/api/productos')
         .then(response => response.json())
 }
 
+async function cargarProductos(productos) {
+    const plantilla = await obtenerPlantillaProductos()
+    const render = Handlebars.compile(plantilla);
+    const html = render({ productos })
+    document.getElementById('productos').innerHTML = html
+}
+
 function obtenerPlantillaProductos() {
-    return fetch('/plantillas/productos.hbs')
+    return fetch('/plantillas/listaProductos.hbs')
         .then(respuesta => respuesta.text())
 }
 
 
-socket.on('actualizarProductos', () => {
-    cargarProductos()
+socket.on('actualizarProductos', productos => {
+    cargarProductos(productos)
 });
 
 
@@ -38,4 +36,3 @@ function agregarProducto(form) {
     form.reset();
     return false;
 }
-

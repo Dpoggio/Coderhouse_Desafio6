@@ -26,7 +26,7 @@ io.on('connection', socket => {
 
     socket.on('nuevoProducto', async producto => {
         await productos.save(producto)
-        io.sockets.emit('actualizarProductos')
+        io.sockets.emit('actualizarProductos', await productos.getAll())
     })
 })
 
