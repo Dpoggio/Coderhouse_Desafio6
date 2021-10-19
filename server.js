@@ -10,11 +10,12 @@ const handlebars = require('express-handlebars')
 const PORT = process.env.PORT || 8080
 const ERROR_CODE = 500
 const ARCHIVO_PRODUCTOS = 'resources/productos.txt'
+const ARCHIVO_MENSAJES = 'resources/mensajes.txt'
 
 /*** TMP ****/
 const Contenedor = require('./contenedor.js')
 const productos = new Contenedor(ARCHIVO_PRODUCTOS)
-const mensajes = []
+const mensajes = new Contenedor(ARCHIVO_MENSAJES)
 
 /**** Inicio App ****/
 const app = express()
@@ -30,9 +31,9 @@ io.on('connection', socket => {
         io.sockets.emit('actualizarProductos', await productos.getAll())
     })
 
-    socket.on('nuevoMensaje', mensaje => {
-        mensajes.push(mensaje)
-        io.sockets.emit('actualizarMensajes', mensajes)
+    socket.on('nuevoMensaje', async mensaje => {
+        await mensajes.save(mensaje)
+        io.sockets.emit('actualizarMensajes', await mensajes.getAll())
     })
 })
 
@@ -61,9 +62,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/productos', routerProductos)
 
-//TMP
-app.get('/api/mensajes',  (req, res) => {
-    res.json(mensajes)
+// ToDo: Reemplazar este api por un router a Mensajes
+app.get('/api/mensajes', async (req, res) => {
+    res.json(await mensajes.getAll())
 })
 
 // Middleware Errores

@@ -1,7 +1,6 @@
 Handlebars.registerHelper('formatDate', function(date) {
     return new Handlebars.SafeString(
         new Date(date).toLocaleString()
-        // moment(dateString).format("MMM D").toUpperCase()
     );
 });
 
