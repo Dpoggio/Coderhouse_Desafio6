@@ -1,5 +1,7 @@
 
 const express = require('express')
+const { Server: HttpServer } = require('http')
+const { Server: IOServer } = require('socket.io')
 const { routerProductos } = require("./routers/routerProductos.js")
 const handlebars = require('express-handlebars')
 
@@ -15,6 +17,20 @@ const productos = new Contenedor(ARCHIVO_PRODUCTOS)
 
 /**** Inicio App ****/
 const app = express()
+const httpServer = new HttpServer(app)
+const io = new IOServer(httpServer)
+
+// Configuracion WebSocket
+io.on('connection', socket => {
+    console.log('Nuevo cliente conectado')
+
+    // socket.emit('mensajes', mensajes)
+
+    // socket.on('nuevoMensaje', mensaje => {
+    //     mensajes.push(mensaje)
+    //     io.sockets.emit('mensajes', mensajes)
+    // })
+})
 
 // Configuracion Vista
 app.engine('hbs', 
@@ -50,6 +66,7 @@ app.get('/productos', async (req, res) => {
 app.post('/productos', async (req, res) => {
     try {
         await productos.save(req.body)
+        io.sockets.emit('actualizarProductos')
         res.redirect('/')
     } catch (error) {
         next(error)
@@ -68,7 +85,7 @@ app.use((err, req, res, next) => {
 })
 
 // Inicio server
-const server = app.listen(PORT, () => {
+const server = httpServer.listen(PORT, () => {
     console.log(`Servidor HTTP escuchando en el puerto ${server.address().port}`)
 })
 server.on("error", error => console.error(`Error en servidor ${error}`))
