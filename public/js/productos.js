@@ -1,6 +1,3 @@
-const socket = io();
-
-
 obtenerProductos().then(cargarProductos)
 
 function obtenerProductos() {

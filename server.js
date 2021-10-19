@@ -14,6 +14,7 @@ const ARCHIVO_PRODUCTOS = 'resources/productos.txt'
 /*** TMP ****/
 const Contenedor = require('./contenedor.js')
 const productos = new Contenedor(ARCHIVO_PRODUCTOS)
+const mensajes = []
 
 /**** Inicio App ****/
 const app = express()
@@ -27,6 +28,11 @@ io.on('connection', socket => {
     socket.on('nuevoProducto', async producto => {
         await productos.save(producto)
         io.sockets.emit('actualizarProductos', await productos.getAll())
+    })
+
+    socket.on('nuevoMensaje', mensaje => {
+        mensajes.push(mensaje)
+        io.sockets.emit('actualizarMensajes', mensajes)
     })
 })
 
@@ -42,6 +48,7 @@ app.engine('hbs',
 app.set('view engine', 'hbs')
 app.set('views', './views')
 
+
 // Middleware incio
 app.use(express.json())
 app.use('/', express.static('public'))
@@ -53,6 +60,11 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/productos', routerProductos)
+
+//TMP
+app.get('/api/mensajes',  (req, res) => {
+    res.json(mensajes)
+})
 
 // Middleware Errores
 app.use((err, req, res, next) => {

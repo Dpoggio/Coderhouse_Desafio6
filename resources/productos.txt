@@ -22,5 +22,11 @@
     "price": "456.254",
     "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-64.png",
     "id": 5
+  },
+  {
+    "title": "TEst",
+    "price": "123",
+    "thumbnail": "asd",
+    "id": 6
   }
 ]
