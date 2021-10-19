@@ -24,12 +24,10 @@ const io = new IOServer(httpServer)
 io.on('connection', socket => {
     console.log('Nuevo cliente conectado')
 
-    // socket.emit('mensajes', mensajes)
-
-    // socket.on('nuevoMensaje', mensaje => {
-    //     mensajes.push(mensaje)
-    //     io.sockets.emit('mensajes', mensajes)
-    // })
+    socket.on('nuevoProducto', async producto => {
+        await productos.save(producto)
+        io.sockets.emit('actualizarProductos')
+    })
 })
 
 // Configuracion Vista
@@ -52,25 +50,6 @@ app.use(express.urlencoded({extended: true}))
 // Routers
 app.get('/', (req, res) => {
     res.render('main')
-})
-
-app.get('/productos', async (req, res) => {
-    try {
-        const listaProductos = await productos.getAll()
-        res.render('productos', { productos: listaProductos })
-    } catch (error) {
-        next(error)
-    }
-})
-
-app.post('/productos', async (req, res) => {
-    try {
-        await productos.save(req.body)
-        io.sockets.emit('actualizarProductos')
-        res.redirect('/')
-    } catch (error) {
-        next(error)
-    }
 })
 
 app.use('/api/productos', routerProductos)

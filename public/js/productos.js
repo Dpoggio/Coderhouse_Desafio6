@@ -26,3 +26,16 @@ function obtenerPlantillaProductos() {
 socket.on('actualizarProductos', () => {
     cargarProductos()
 });
+
+
+function agregarProducto(form) {
+    const producto = {
+        title: form["title"].value,
+        price: form["price"].value,
+        thumbnail: form["thumbnail"].value,
+    }
+    socket.emit('nuevoProducto', producto);
+    form.reset();
+    return false;
+}
+
