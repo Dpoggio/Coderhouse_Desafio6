@@ -3,6 +3,7 @@ const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
 const { routerProductos } = require("./routers/routerProductos.js")
+const { routerMensajes } = require("./routers/routerMensajes.js")
 const handlebars = require('express-handlebars')
 
 
@@ -61,11 +62,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/productos', routerProductos)
-
-// ToDo: Reemplazar este api por un router a Mensajes
-app.get('/api/mensajes', async (req, res) => {
-    res.json(await mensajes.getAll())
-})
+app.use('/api/mensajes', routerMensajes)
 
 // Middleware Errores
 app.use((err, req, res, next) => {
