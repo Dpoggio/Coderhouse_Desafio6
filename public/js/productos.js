@@ -1,10 +1,3 @@
-obtenerProductos().then(cargarProductos)
-
-function obtenerProductos() {
-    return fetch('/api/productos')
-        .then(response => response.json())
-}
-
 async function cargarProductos(productos) {
     const plantilla = await obtenerPlantillaProductos()
     const render = Handlebars.compile(plantilla);

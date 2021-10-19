@@ -4,13 +4,6 @@ Handlebars.registerHelper('formatDate', function(date) {
     );
 });
 
-obtenerMensajes().then(cargarMensajes)
-
-function obtenerMensajes() {
-    return fetch('/api/mensajes')
-        .then(response => response.json())
-}
-
 async function cargarMensajes(mensajes) {
     const plantilla = await obtenerPlantillaMensajes()
     const render = Handlebars.compile(plantilla);

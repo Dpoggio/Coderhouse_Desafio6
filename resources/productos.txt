@@ -28,5 +28,17 @@
     "price": "123",
     "thumbnail": "asd",
     "id": 6
+  },
+  {
+    "title": "Test",
+    "price": "123",
+    "thumbnail": "asd",
+    "id": 7
+  },
+  {
+    "title": "test",
+    "price": "2000",
+    "thumbnail": "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678077-computer-64.png",
+    "id": 8
   }
 ]

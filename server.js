@@ -2,8 +2,6 @@
 const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
-const { routerProductos } = require("./routers/routerProductos.js")
-const { routerMensajes } = require("./routers/routerMensajes.js")
 const handlebars = require('express-handlebars')
 
 
@@ -24,8 +22,11 @@ const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
 // Configuracion WebSocket
-io.on('connection', socket => {
+io.on('connection', async socket => {
     console.log('Nuevo cliente conectado')
+
+    socket.emit('actualizarProductos', await productos.getAll())
+    socket.emit('actualizarMensajes', await mensajes.getAll())
 
     socket.on('nuevoProducto', async producto => {
         await productos.save(producto)
@@ -60,9 +61,6 @@ app.use(express.urlencoded({extended: true}))
 app.get('/', (req, res) => {
     res.render('main')
 })
-
-app.use('/api/productos', routerProductos)
-app.use('/api/mensajes', routerMensajes)
 
 // Middleware Errores
 app.use((err, req, res, next) => {
