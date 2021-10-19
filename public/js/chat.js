@@ -9,6 +9,8 @@ async function cargarMensajes(mensajes) {
     const render = Handlebars.compile(plantilla);
     const html = render({ mensajes })
     document.getElementById('mensajes').innerHTML = html
+    const scrollHeight = document.getElementById("mensajes").scrollHeight
+    document.getElementById("mensajes").scrollTop = scrollHeight
 }
 
 function obtenerPlantillaMensajes() {
