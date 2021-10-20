@@ -1,7 +1,7 @@
 {
-  "name": "coderhouse_desafio5",
+  "name": "coderhouse_desafio6",
   "version": "1.0.0",
-  "description": "Servidor con Express",
+  "description": "Websockets",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dpoggio/Coderhouse_Desafio5.git"
+    "url": "git+https://github.com/Dpoggio/Coderhouse_Desafio6.git"
   },
   "author": "Demian Poggio",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Dpoggio/Coderhouse_Desafio5/issues"
+    "url": "https://github.com/Dpoggio/Coderhouse_Desafio6/issues"
   },
-  "homepage": "https://github.com/Dpoggio/Coderhouse_Desafio5#readme",
+  "homepage": "https://github.com/Dpoggio/Coderhouse_Desafio6#readme",
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.3.4",
